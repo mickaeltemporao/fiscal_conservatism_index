@@ -1,0 +1,16 @@
+# Text File
+# ------------------------------------------------------------------------------
+# Title:        TODO: (add title)
+# Filename:     .gitignore
+# Description:  TODO: (write me)
+# Version:      0.0.0.000
+# Created:      2016-06-02 12:03:09
+# Modified:     2016-06-02 12:06:47
+# Author:       Mickael Temporão < mickael.temporao.1 at ulaval.ca >
+# ------------------------------------------------------------------------------
+# Copyright (C) 2016 Mickael Temporão
+# Licensed under the GPL-2 < https://www.gnu.org/licenses/gpl-2.0.txt >
+# ------------------------------------------------------------------------------
+/data/
+/writing/
+/misc/
