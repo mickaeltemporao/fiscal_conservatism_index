@@ -5,13 +5,48 @@
 # Description:  TODO: (write me)
 # Version:      0.0.0.000
 # Created:      2016-06-02 12:03:09
-# Modified:     2016-06-02 12:07:42
+# Modified:     2016-11-02 10:56:10
 # Author:       Mickael Temporão < mickael.temporao.1 at ulaval.ca >
 # ------------------------------------------------------------------------------
 # Copyright (C) 2016 Mickael Temporão
 # Licensed under the GPL-2 < https://www.gnu.org/licenses/gpl-2.0.txt >
 # ------------------------------------------------------------------------------
+.DS_Store
 /archive/
 /data/
 /misc/
 /writing/
+
+# History files
+.Rhistory
+.Rapp.history
+
+# Session Data files
+.RData
+
+# Example code in package build process
+*-Ex.R
+
+# Output files from R CMD build
+/*.tar.gz
+
+# Output files from R CMD check
+/*.Rcheck/
+
+# RStudio files
+.Rproj.user/
+
+# produced vignettes
+vignettes/*.html
+vignettes/*.pdf
+
+# OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
+.httr-oauth
+
+# knitr and R markdown default cache directories
+/*_cache/
+/cache/
+
+# Temporary files created by R markdown
+*.utf8.md
+*.knit.md
