@@ -5,7 +5,7 @@
 # Description:  TODO: (write me)
 # Version:      0.0.0.000
 # Created:      2016-04-15 11:48:37
-# Modified:     2016-11-02 10:35:04
+# Modified:     2016-11-02 10:47:33
 # Author:       Mickael Temporão < mickael.temporao.1 at ulaval.ca >
 # ------------------------------------------------------------------------------
 # Copyright (C) 2016 Mickael Temporão
@@ -82,9 +82,9 @@ ggplot(test, aes(x = year, y = ws_2016)) +
 
 ggsave(filename="../figures/can_prov_wordscores.png", width=12, height=6, scale =1)
 
-ggplot(db_2, aes(x = year, y = ws_2016, color = prov)) +
+ggplot(db_2, aes(x = year, y = ws_2016)) +
   geom_point(size=3.5, color='grey', alpha = 0.4) +
-  geom_smooth(span=0.8, se=F, linetype = 2) +
+  geom_smooth(span=0.8, se=F, color='grey46', aes(linetype = prov, group = prov)) +
   theme(strip.background = element_rect(colour="black", fill="white",
                                        size=1.5, linetype="solid")) +
   annotate("rect", xmin=1985, xmax=1995, ymin=-Inf, ymax=Inf, alpha=0.2, fill='grey') +
