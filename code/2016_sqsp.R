@@ -5,7 +5,7 @@
 # Description:  TODO: (write me)
 # Version:      0.0.0.000
 # Created:      2016-04-15 11:48:37
-# Modified:     2016-11-02 10:47:33
+# Modified:     2016-11-02 11:23:15
 # Author:       Mickael Temporão < mickael.temporao.1 at ulaval.ca >
 # ------------------------------------------------------------------------------
 # Copyright (C) 2016 Mickael Temporão
@@ -87,10 +87,9 @@ ggplot(db_2, aes(x = year, y = ws_2016)) +
   geom_smooth(span=0.8, se=F, color='grey46', aes(linetype = prov, group = prov)) +
   theme(strip.background = element_rect(colour="black", fill="white",
                                        size=1.5, linetype="solid")) +
-  annotate("rect", xmin=1985, xmax=1995, ymin=-Inf, ymax=Inf, alpha=0.2, fill='grey') +
-  geom_vline(xintercept=1985, linetype='dotdash', alpha = .6)+
-  geom_vline(xintercept=1995, linetype='dotdash', alpha = .6)+
-#  facet_wrap(~prov, ncol=4, nrow=2, scales='free') +
+#  annotate("rect", xmin=1985, xmax=1995, ymin=-Inf, ymax=Inf, alpha=0.2, fill='grey') +
+#  geom_vline(xintercept=1985, linetype='dotdash', alpha = .6)+
+#  geom_vline(xintercept=1995, linetype='dotdash', alpha = .6)+
   theme_classic() +
   scale_x_continuous("", limits=c(1970,2015)) +
   scale_y_continuous("", limits=c(-.3,1)) +
