@@ -5,7 +5,7 @@
 # Description:  TODO: (write me)
 # Version:      0.0.0.000
 # Created:      2016-04-15 11:48:37
-# Modified:     2016-06-02 16:42:29
+# Modified:     2016-11-02 10:35:04
 # Author:       Mickael Temporão < mickael.temporao.1 at ulaval.ca >
 # ------------------------------------------------------------------------------
 # Copyright (C) 2016 Mickael Temporão
@@ -80,7 +80,7 @@ ggplot(test, aes(x = year, y = ws_2016)) +
   scale_y_continuous("", limits=c(-.3,1)) +
   annotate('text', x=2005, y=-.3, label = paste0('n = ',c(43,42,45,43,34,45,43,295)))
 
-ggsave(filename="../figures/can_prov_wordscores.pdf", width=12, height=6, scale =1)
+ggsave(filename="../figures/can_prov_wordscores.png", width=12, height=6, scale =1)
 
 ggplot(db_2, aes(x = year, y = ws_2016, color = prov)) +
   geom_point(size=3.5, color='grey', alpha = 0.4) +
@@ -96,7 +96,7 @@ ggplot(db_2, aes(x = year, y = ws_2016, color = prov)) +
   scale_y_continuous("", limits=c(-.3,1)) +
   theme(legend.title=element_blank(), legend.position='bottom')
 
-ggsave(filename="../figures/can_wordscores.pdf", width=10, height=7, scale =1)
+ggsave(filename="../figures/can_wordscores.png", width=10, height=7, scale =1)
 
 plot(test$year, test$ws_2016, col = "black", pch = 21, bg = "grey", cex = 2,
      xlim = c(1970,2020), ylim = c(-.5,1.1), ylab = "", xlab = "", axes = FALSE)
