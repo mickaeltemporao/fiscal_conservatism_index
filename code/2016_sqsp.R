@@ -5,14 +5,13 @@
 # Description:  TODO: (write me)
 # Version:      0.0.0.000
 # Created:      2016-04-15 11:48:37
-# Modified:     2016-11-02 11:23:15
+# Modified:     2016-11-22 21:03:21
 # Author:       Mickael Temporão < mickael.temporao.1 at ulaval.ca >
 # ------------------------------------------------------------------------------
 # Copyright (C) 2016 Mickael Temporão
 # Licensed under the GPL-2 < https://www.gnu.org/licenses/gpl-2.0.txt >
 # ------------------------------------------------------------------------------
-library(dplyr)
-library(tidyr)
+library(tidyverse)
 library(ggplot2)
 library(ggthemes)
 path <- '../data/20160417_wordscores/'
@@ -49,18 +48,50 @@ db <- db %>% left_join(ab) %>%
 #  left_join(data2)
 
 test <- db[!is.na(db$ws_2016),]
-test <- filter(test, prov %in% c('AB', 'BC', 'MB', 'NB', 'ON', 'QC', 'SK')) %>%
-  filter(year, year %in% c(1970:2015)) #%>%
-#  select(-locuteur, -poste, -party) %>% select(ws_2016, everything())
+test <- dplyr::filter(test, prov %in% c('AB', 'BC', 'MB', 'NB', 'ON', 'QC', 'SK')) %>%
+  dplyr::filter(year, year %in% c(1970:2015)) #%>%
 
-test$prov[test$prov=='AB'] <- '1. Alberta'
-test$prov[test$prov=='BC'] <- '2. British-Columbia'
-test$prov[test$prov=='MB'] <- '3. Manitoba'
-test$prov[test$prov=='NB'] <- '4. New-Brunswick'
-test$prov[test$prov=='ON'] <- '5. Ontario'
-test$prov[test$prov=='QC'] <- '6. Quebec'
-test$prov[test$prov=='SK'] <- '7. Saskatchewan'
+test$label[test$prov=='AB'] <- '1. Alberta'
+test$label[test$prov=='BC'] <- '2. British-Columbia'
+test$label[test$prov=='MB'] <- '3. Manitoba'
+test$label[test$prov=='NB'] <- '4. New-Brunswick'
+test$label[test$prov=='ON'] <- '5. Ontario'
+test$label[test$prov=='QC'] <- '6. Quebec'
+test$label[test$prov=='SK'] <- '7. Saskatchewan'
 
+library(ggrepel)
+ggplot(test, aes(x = year, y = ws_2016)) +
+  geom_point(size=3.5, color='grey', alpha = 0.4) +
+  geom_smooth(span=0.8, se=F, color='grey46', aes(linetype = label, group = label)) +
+#  geom_text_repel(aes(label = prov)) +
+  theme(strip.background = element_rect(colour="black", fill="white",
+                                       size=1.5, linetype="solid")) +
+  theme_classic() +
+  scale_x_continuous("", limits=c(1970,2015)) +
+  scale_y_continuous("", limits=c(-.3,1)) +
+  theme(legend.title=element_blank(), legend.position='bottom')
+ggsave(filename="../figures/can_wordscores_EN.png", width=10, height=7)
+
+test$label_fr[test$prov=='AB'] <- '1. Alberta'
+test$label_fr[test$prov=='BC'] <- '2. Colombie-Britannique'
+test$label_fr[test$prov=='MB'] <- '3. Manitoba'
+test$label_fr[test$prov=='NB'] <- '4. Nouveau-Brunswick'
+test$label_fr[test$prov=='ON'] <- '5. Ontario'
+test$label_fr[test$prov=='QC'] <- '6. Québec'
+test$label_fr[test$prov=='SK'] <- '7. Saskatchewan'
+
+ggplot(test, aes(x = year, y = ws_2016)) +
+  geom_point(size=3.5, color='grey', alpha = 0.4) +
+  geom_smooth(span=0.8, se=F, color='grey46', aes(linetype = label_fr, group = prov)) +
+  theme(strip.background = element_rect(colour="black", fill="white",
+                                       size=1.5, linetype="solid")) +
+  theme_classic() +
+  scale_x_continuous("", limits=c(1970,2015)) +
+  scale_y_continuous("", limits=c(-.3,1)) +
+  theme(legend.title=element_blank(), legend.position='bottom')
+ggsave(filename="../figures/can_wordscores_FR.png", width=10, height=7, scale =1)
+
+# Wraped Figures Plot
 db_2 <- test
 test2 <- test
 test2$prov <- '8.All Provinces'
@@ -79,24 +110,10 @@ ggplot(test, aes(x = year, y = ws_2016)) +
   scale_x_continuous("", limits=c(1970,2015)) +
   scale_y_continuous("", limits=c(-.3,1)) +
   annotate('text', x=2005, y=-.3, label = paste0('n = ',c(43,42,45,43,34,45,43,295)))
-
 ggsave(filename="../figures/can_prov_wordscores.png", width=12, height=6, scale =1)
 
-ggplot(db_2, aes(x = year, y = ws_2016)) +
-  geom_point(size=3.5, color='grey', alpha = 0.4) +
-  geom_smooth(span=0.8, se=F, color='grey46', aes(linetype = prov, group = prov)) +
-  theme(strip.background = element_rect(colour="black", fill="white",
-                                       size=1.5, linetype="solid")) +
-#  annotate("rect", xmin=1985, xmax=1995, ymin=-Inf, ymax=Inf, alpha=0.2, fill='grey') +
-#  geom_vline(xintercept=1985, linetype='dotdash', alpha = .6)+
-#  geom_vline(xintercept=1995, linetype='dotdash', alpha = .6)+
-  theme_classic() +
-  scale_x_continuous("", limits=c(1970,2015)) +
-  scale_y_continuous("", limits=c(-.3,1)) +
-  theme(legend.title=element_blank(), legend.position='bottom')
 
-ggsave(filename="../figures/can_wordscores.png", width=10, height=7, scale =1)
-
+# Base Plot
 plot(test$year, test$ws_2016, col = "black", pch = 21, bg = "grey", cex = 2,
      xlim = c(1970,2020), ylim = c(-.5,1.1), ylab = "", xlab = "", axes = FALSE)
 axis(1)
