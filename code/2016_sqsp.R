@@ -5,7 +5,7 @@
 # Description:  TODO: (write me)
 # Version:      0.0.0.000
 # Created:      2016-04-15 11:48:37
-# Modified:     2016-11-22 21:03:21
+# Modified:     2016-11-24 13:56:17
 # Author:       Mickael Temporão < mickael.temporao.1 at ulaval.ca >
 # ------------------------------------------------------------------------------
 # Copyright (C) 2016 Mickael Temporão
@@ -59,11 +59,9 @@ test$label[test$prov=='ON'] <- '5. Ontario'
 test$label[test$prov=='QC'] <- '6. Quebec'
 test$label[test$prov=='SK'] <- '7. Saskatchewan'
 
-library(ggrepel)
 ggplot(test, aes(x = year, y = ws_2016)) +
   geom_point(size=3.5, color='grey', alpha = 0.4) +
   geom_smooth(span=0.8, se=F, color='grey46', aes(linetype = label, group = label)) +
-#  geom_text_repel(aes(label = prov)) +
   theme(strip.background = element_rect(colour="black", fill="white",
                                        size=1.5, linetype="solid")) +
   theme_classic() +
@@ -80,9 +78,9 @@ test$label_fr[test$prov=='ON'] <- '5. Ontario'
 test$label_fr[test$prov=='QC'] <- '6. Québec'
 test$label_fr[test$prov=='SK'] <- '7. Saskatchewan'
 
-ggplot(test, aes(x = year, y = ws_2016)) +
+ggplot(test, aes(x = year, y = ws_2016, group = prov, colour = prov, linetype = label_fr)) +
   geom_point(size=3.5, color='grey', alpha = 0.4) +
-  geom_smooth(span=0.8, se=F, color='grey46', aes(linetype = label_fr, group = prov)) +
+  geom_smooth(span=0.8, se=F, color='grey46') +
   theme(strip.background = element_rect(colour="black", fill="white",
                                        size=1.5, linetype="solid")) +
   theme_classic() +
