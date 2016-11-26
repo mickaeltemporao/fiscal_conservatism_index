@@ -5,7 +5,7 @@
 # Description:  TODO: (write me)
 # Version:      0.0.0.000
 # Created:      2016-04-15 11:48:37
-# Modified:     2016-11-24 13:56:17
+# Modified:     2016-11-26 13:32:02
 # Author:       Mickael Temporão < mickael.temporao.1 at ulaval.ca >
 # ------------------------------------------------------------------------------
 # Copyright (C) 2016 Mickael Temporão
@@ -51,17 +51,17 @@ test <- db[!is.na(db$ws_2016),]
 test <- dplyr::filter(test, prov %in% c('AB', 'BC', 'MB', 'NB', 'ON', 'QC', 'SK')) %>%
   dplyr::filter(year, year %in% c(1970:2015)) #%>%
 
-test$label[test$prov=='AB'] <- '1. Alberta'
-test$label[test$prov=='BC'] <- '2. British-Columbia'
-test$label[test$prov=='MB'] <- '3. Manitoba'
-test$label[test$prov=='NB'] <- '4. New-Brunswick'
-test$label[test$prov=='ON'] <- '5. Ontario'
-test$label[test$prov=='QC'] <- '6. Quebec'
-test$label[test$prov=='SK'] <- '7. Saskatchewan'
+test$label_en[test$prov=='AB'] <- '1. Alberta'
+test$label_en[test$prov=='BC'] <- '2. British-Columbia'
+test$label_en[test$prov=='MB'] <- '3. Manitoba'
+test$label_en[test$prov=='NB'] <- '4. New-Brunswick'
+test$label_en[test$prov=='ON'] <- '5. Ontario'
+test$label_en[test$prov=='QC'] <- '6. Quebec'
+test$label_en[test$prov=='SK'] <- '7. Saskatchewan'
 
 ggplot(test, aes(x = year, y = ws_2016)) +
   geom_point(size=3.5, color='grey', alpha = 0.4) +
-  geom_smooth(span=0.8, se=F, color='grey46', aes(linetype = label, group = label)) +
+  geom_smooth(span=0.8, se=F, color='grey46', aes(linetype = label_en, group = label_en)) +
   theme(strip.background = element_rect(colour="black", fill="white",
                                        size=1.5, linetype="solid")) +
   theme_classic() +
@@ -78,37 +78,38 @@ test$label_fr[test$prov=='ON'] <- '5. Ontario'
 test$label_fr[test$prov=='QC'] <- '6. Québec'
 test$label_fr[test$prov=='SK'] <- '7. Saskatchewan'
 
-ggplot(test, aes(x = year, y = ws_2016, group = prov, colour = prov, linetype = label_fr)) +
+ggplot(test, aes(x = year, y = ws_2016)) +
   geom_point(size=3.5, color='grey', alpha = 0.4) +
-  geom_smooth(span=0.8, se=F, color='grey46') +
+  geom_smooth(span=0.8, se=F, color='grey46', aes(linetype = label_fr, group = label_fr)) +
   theme(strip.background = element_rect(colour="black", fill="white",
                                        size=1.5, linetype="solid")) +
   theme_classic() +
   scale_x_continuous("", limits=c(1970,2015)) +
   scale_y_continuous("", limits=c(-.3,1)) +
   theme(legend.title=element_blank(), legend.position='bottom')
-ggsave(filename="../figures/can_wordscores_FR.png", width=10, height=7, scale =1)
+ggsave(filename="../figures/can_wordscores_FR.png", width=10, height=7)
 
 # Wraped Figures Plot
-db_2 <- test
-test2 <- test
-test2$prov <- '8.All Provinces'
-test <- test %>% bind_rows(test2)
+# db_2 <- test
+# test2 <- test
+# test2$prov <- '8.All Provinces'
+# test <- test %>% bind_rows(test2)
 
 ggplot(test, aes(x = year, y = ws_2016)) +
   geom_point(size=3.5, shape=21, fill='grey', alpha = 0.4) +
   geom_smooth(span=0.8, se=F, color='black', linetype=2) +
   theme(strip.background = element_rect(colour="black", fill="white",
                                        size=1.5, linetype="solid")) +
-  annotate("rect", xmin=1985, xmax=1995, ymin=-Inf, ymax=Inf, alpha=0.2, fill='grey') +
-  geom_vline(xintercept=1985, linetype='dotdash', alpha = .6)+
-  geom_vline(xintercept=1995, linetype='dotdash', alpha = .6)+
-  facet_wrap(~prov, ncol=4, nrow=2, scales='free') +
+  # annotate("rect", xmin=1985, xmax=1995, ymin=-Inf, ymax=Inf, alpha=0.2, fill='grey') +
+  # geom_vline(xintercept=1985, linetype='dotdash', alpha = .6)+
+  # geom_vline(xintercept=1995, linetype='dotdash', alpha = .6)+
+  facet_wrap(~label_en, ncol=4, nrow=2, scales='free') +
   theme_classic() +
   scale_x_continuous("", limits=c(1970,2015)) +
   scale_y_continuous("", limits=c(-.3,1)) +
-  annotate('text', x=2005, y=-.3, label = paste0('n = ',c(43,42,45,43,34,45,43,295)))
-ggsave(filename="../figures/can_prov_wordscores.png", width=12, height=6, scale =1)
+  annotate('text', x=2005, y=-.3, label = paste0('n = ',c(43,42,45,43,34,45,43)))
+  # annotate('text', x=2005, y=-.3, label = paste0('n = ',c(43,42,45,43,34,45,43,295)))
+ggsave(filename="../figures/can_prov_wordscores_en.png", width=12, height=6, scale =1)
 
 
 # Base Plot
