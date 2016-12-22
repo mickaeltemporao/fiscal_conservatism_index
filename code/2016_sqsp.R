@@ -5,7 +5,7 @@
 # Description:  TODO: (write me)
 # Version:      0.0.0.000
 # Created:      2016-04-15 11:48:37
-# Modified:     2016-11-26 13:32:02
+# Modified:     2016-12-21 22:22:56
 # Author:       Mickael Temporão < mickael.temporao.1 at ulaval.ca >
 # ------------------------------------------------------------------------------
 # Copyright (C) 2016 Mickael Temporão
@@ -90,10 +90,13 @@ ggplot(test, aes(x = year, y = ws_2016)) +
 ggsave(filename="../figures/can_wordscores_FR.png", width=10, height=7)
 
 # Wraped Figures Plot
-# db_2 <- test
-# test2 <- test
-# test2$prov <- '8.All Provinces'
-# test <- test %>% bind_rows(test2)
+db_2 <- test
+test2 <- test
+test2$prov <- 'ALL'
+test2$label_en <- '8.All Provinces'
+test2$label_fr <- '8.Toutes Provinces'
+
+test <- test %>% bind_rows(test2)
 
 ggplot(test, aes(x = year, y = ws_2016)) +
   geom_point(size=3.5, shape=21, fill='grey', alpha = 0.4) +
@@ -103,14 +106,13 @@ ggplot(test, aes(x = year, y = ws_2016)) +
   # annotate("rect", xmin=1985, xmax=1995, ymin=-Inf, ymax=Inf, alpha=0.2, fill='grey') +
   # geom_vline(xintercept=1985, linetype='dotdash', alpha = .6)+
   # geom_vline(xintercept=1995, linetype='dotdash', alpha = .6)+
-  facet_wrap(~label_en, ncol=4, nrow=2, scales='free') +
+  facet_wrap(~label_fr, ncol=4, nrow=2, scales='free') +
   theme_classic() +
   scale_x_continuous("", limits=c(1970,2015)) +
   scale_y_continuous("", limits=c(-.3,1)) +
-  annotate('text', x=2005, y=-.3, label = paste0('n = ',c(43,42,45,43,34,45,43)))
+  annotate('text', x=2005, y=-.3, label = paste0('n = ',c(43,42,45,43,34,45,43, 295)))
   # annotate('text', x=2005, y=-.3, label = paste0('n = ',c(43,42,45,43,34,45,43,295)))
-ggsave(filename="../figures/can_prov_wordscores_en.png", width=12, height=6, scale =1)
-
+ggsave(filename="../figures/can_prov_wordscores_fr.png", width=12, height=6, scale =1)
 
 # Base Plot
 plot(test$year, test$ws_2016, col = "black", pch = 21, bg = "grey", cex = 2,
