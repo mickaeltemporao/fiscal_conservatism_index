@@ -5,7 +5,7 @@
 # Description:  TODO: (write me)
 # Version:      0.0.0.000
 # Created:      2016-04-15 11:48:37
-# Modified:     2016-12-21 22:22:56
+# Modified:     2017-04-08 17:11:47
 # Author:       Mickael Temporão < mickael.temporao.1 at ulaval.ca >
 # ------------------------------------------------------------------------------
 # Copyright (C) 2016 Mickael Temporão
@@ -59,6 +59,7 @@ test$label_en[test$prov=='ON'] <- '5. Ontario'
 test$label_en[test$prov=='QC'] <- '6. Quebec'
 test$label_en[test$prov=='SK'] <- '7. Saskatchewan'
 
+options(OutDec= ",")
 ggplot(test, aes(x = year, y = ws_2016)) +
   geom_point(size=3.5, color='grey', alpha = 0.4) +
   geom_smooth(span=0.8, se=F, color='grey46', aes(linetype = label_en, group = label_en)) +
@@ -68,6 +69,7 @@ ggplot(test, aes(x = year, y = ws_2016)) +
   scale_x_continuous("", limits=c(1970,2015)) +
   scale_y_continuous("", limits=c(-.3,1)) +
   theme(legend.title=element_blank(), legend.position='bottom')
+
 ggsave(filename="../figures/can_wordscores_EN.png", width=10, height=7)
 
 test$label_fr[test$prov=='AB'] <- '1. Alberta'
