@@ -5,7 +5,7 @@
 # Description:  TODO: (write me)
 # Version:      0.0.0.000
 # Created:      2016-04-15 11:48:37
-# Modified:     2017-04-08 17:11:47
+# Modified:     2017-04-08 17:56:35
 # Author:       Mickael Temporão < mickael.temporao.1 at ulaval.ca >
 # ------------------------------------------------------------------------------
 # Copyright (C) 2016 Mickael Temporão
@@ -51,26 +51,30 @@ test <- db[!is.na(db$ws_2016),]
 test <- dplyr::filter(test, prov %in% c('AB', 'BC', 'MB', 'NB', 'ON', 'QC', 'SK')) %>%
   dplyr::filter(year, year %in% c(1970:2015)) #%>%
 
-test$label_en[test$prov=='AB'] <- '1. Alberta'
-test$label_en[test$prov=='BC'] <- '2. British-Columbia'
-test$label_en[test$prov=='MB'] <- '3. Manitoba'
-test$label_en[test$prov=='NB'] <- '4. New-Brunswick'
-test$label_en[test$prov=='ON'] <- '5. Ontario'
-test$label_en[test$prov=='QC'] <- '6. Quebec'
-test$label_en[test$prov=='SK'] <- '7. Saskatchewan'
+test$label_fr[test$prov=='AB'] <- 'Alberta'
+test$label_fr[test$prov=='BC'] <- 'Colombie-Britannique'
+test$label_fr[test$prov=='MB'] <- 'Manitoba'
+test$label_fr[test$prov=='NB'] <- 'Nouveau-Brunswick'
+test$label_fr[test$prov=='ON'] <- 'Ontario'
+test$label_fr[test$prov=='QC'] <- 'Québec'
+test$label_fr[test$prov=='SK'] <- 'Saskatchewan'
 
-options(OutDec= ",")
 ggplot(test, aes(x = year, y = ws_2016)) +
   geom_point(size=3.5, color='grey', alpha = 0.4) +
-  geom_smooth(span=0.8, se=F, color='grey46', aes(linetype = label_en, group = label_en)) +
-  theme(strip.background = element_rect(colour="black", fill="white",
-                                       size=1.5, linetype="solid")) +
+  geom_smooth(span=0.8, se=F, color='grey46', aes(linetype = label_fr, group = label_fr)) +
   theme_classic() +
   scale_x_continuous("", limits=c(1970,2015)) +
   scale_y_continuous("", limits=c(-.3,1)) +
-  theme(legend.title=element_blank(), legend.position='bottom')
+  scale_colour_grey() +
+  theme(legend.title=element_blank(),
+        legend.position='bottom',
+        legend.text=element_text(size=18),
+        legend.key.width=unit(1, "cm"),
+        text = element_text(size=20),
+        strip.background = element_rect(colour="black", fill="white",
+                                       size=1.5, linetype="solid"))
 
-ggsave(filename="../figures/can_wordscores_EN.png", width=10, height=7)
+ggsave(filename="../figures/can_wordscores_FR.png", width=12, height=8)
 
 test$label_fr[test$prov=='AB'] <- '1. Alberta'
 test$label_fr[test$prov=='BC'] <- '2. Colombie-Britannique'
@@ -80,23 +84,11 @@ test$label_fr[test$prov=='ON'] <- '5. Ontario'
 test$label_fr[test$prov=='QC'] <- '6. Québec'
 test$label_fr[test$prov=='SK'] <- '7. Saskatchewan'
 
-ggplot(test, aes(x = year, y = ws_2016)) +
-  geom_point(size=3.5, color='grey', alpha = 0.4) +
-  geom_smooth(span=0.8, se=F, color='grey46', aes(linetype = label_fr, group = label_fr)) +
-  theme(strip.background = element_rect(colour="black", fill="white",
-                                       size=1.5, linetype="solid")) +
-  theme_classic() +
-  scale_x_continuous("", limits=c(1970,2015)) +
-  scale_y_continuous("", limits=c(-.3,1)) +
-  theme(legend.title=element_blank(), legend.position='bottom')
-ggsave(filename="../figures/can_wordscores_FR.png", width=10, height=7)
-
 # Wraped Figures Plot
 db_2 <- test
 test2 <- test
 test2$prov <- 'ALL'
-test2$label_en <- '8.All Provinces'
-test2$label_fr <- '8.Toutes Provinces'
+test2$label_fr <- '8. Toutes les provinces'
 
 test <- test %>% bind_rows(test2)
 
@@ -114,6 +106,7 @@ ggplot(test, aes(x = year, y = ws_2016)) +
   scale_y_continuous("", limits=c(-.3,1)) +
   annotate('text', x=2005, y=-.3, label = paste0('n = ',c(43,42,45,43,34,45,43, 295)))
   # annotate('text', x=2005, y=-.3, label = paste0('n = ',c(43,42,45,43,34,45,43,295)))
+
 ggsave(filename="../figures/can_prov_wordscores_fr.png", width=12, height=6, scale =1)
 
 # Base Plot
@@ -132,59 +125,4 @@ mtext("Presidential Height Ratio", side = 1, line = 2.5, cex = 1.5)
 mtext("Relative Support for President", side = 2, line = 3.7, cex = 1.5)
 text(1.15, .65, "r = .39", cex = 1.5)
 
-# dev.off()
-# For comparison, consider the default plot:
-# par(op) # reset to default "par" settings
-# plot(height.ratio, pop.vote) #yuk!
-
-
-# for (i in names(test)) {
-#   if (sum(is.na(test[,i]))> 40) {
-#    test[,i] <- NULL
-#   }
-# }
-
-# test$gdpUsa <- as.numeric(gsub(",","",test$gdpUsa))
-# test$gdpCan <- as.numeric(gsub(",","",test$gdpCan))
-# test$year <- as.numeric(test$year)
-# test$uniqueWords <- gsub(",","",test$uniqueWords)
-# test$uniqueWords <- gsub("[.]","",test$uniqueWords)
-# test$uniqueWords <- as.numeric(test$uniqueWords)
-# test$deficit1<- as.numeric(gsub(",","",test$deficit1))
-# test$deficit2<- as.numeric(gsub(",","",test$deficit2))
-# test$depenses2<- as.numeric(gsub(",","",test$depenses2))
-# test$vbb1 <- as.numeric(test$vbb1)
-# test$prov <- as.factor(test$prov)
-
-# for (i in names(test)) {
-#   if (i!='prov') {
-#    test[,i] <- as.numeric(test[,i])
-#   }
-# }
-
-# for (i in names(test)) {
-#   if (sum(is.na(test[,i]))> 40) {
-#    test[,i] <- NULL
-#   }
-# }
-
-# dv <- 'ws_2016'
-# iv <- c(names(test)[2:length(names(test))])
-
-# model <- as.formula(paste(dv, paste(iv, collapse=" + "), sep=" ~ "))
-# rf <- randomForest::randomForest(model, data=test, importance = TRUE, ntree = 2500, do.trace = 250,   na.action=na.roughfix)
-
-# pred.rf <- predict(rf, test)
-# RMSE.rf <- sqrt(mean((pred.rf-test$rri)^2, na.rm=T))
-
-
-
-
-
-# plot(ab$year, ab$trans_score , type="l", col="red")
-# lines(cb$year, cb$trans_score, lty=2)
-# lines(mb$year, mb$trans_score, lty=3)
-# lines(nb$year, nb$trans_score, lty=4)
-# lines(on$year, on$trans_score, lty=5)
-# lines(qc$year, qc$trans_score, lty=6)
-# lines(sk$year, sk$trans_score, lty=7)
+options(OutDec= ".")
